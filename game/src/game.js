@@ -2,17 +2,17 @@ kontra.init();
 
 kontra.assetPaths.images = 'assets/images/';
 
-kontra.loadAssets('background.png', 'enemy.png', 'player.png').then(
+kontra.loadAssets('RR_level.png', 'enemy.png', 'player.png').then(
   function(){
     var background = kontra.sprite({
-      x: 0,
-      y: 0,
-      image: kontra.images.background
+      x: -100,
+      y: -208,
+      image: kontra.images.RR_level
     });
 
     var player = kontra.sprite({
       x: 120,
-      y: 240,
+      y: 120,
       image: kontra.images.player
     });
 
@@ -46,28 +46,28 @@ kontra.loadAssets('background.png', 'enemy.png', 'player.png').then(
     var loop = kontra.gameLoop({
       update: function() {
 
-        if(kontra.keys.pressed('up')) {
-          player.y -= 1;
-        }
+        // if(kontra.keys.pressed('up')) {
+        //   player.y -= 1;
+        // }
 
-        if(kontra.keys.pressed('down')) {
-          player.y += 1;
-        }
+        // if(kontra.keys.pressed('down')) {
+        //   player.y += 1;
+        // }
 
-        if(kontra.keys.pressed('right')) {
-          player.x += 1;
-        }
+        // if(kontra.keys.pressed('right')) {
+        //   player.x += 1;
+        // }
 
-        if(kontra.keys.pressed('left')) {
-          player.x -= 1;
-        }
+        // if(kontra.keys.pressed('left')) {
+        //   player.x -= 1;
+        // }
 
-        if(player.y <= 40) {
-          //pause game
-          loop.stop();
-          alert('You Won!');
-          window.location = '';
-        }
+        // if(player.y <= 40) {
+        //   //pause game
+        //   loop.stop();
+        //   alert('You Won!');
+        //   window.location = '';
+        // }
         player.update();
 
         //enemy bouncing
@@ -84,13 +84,50 @@ kontra.loadAssets('background.png', 'enemy.png', 'player.png').then(
 
           enemy.update();
 
-          //check for collision
-          if(enemy.collidesWith(player)) {
-            loop.stop();
-            alert('GAME OVER!');
-            window.location = '';
-          }
+          // //check for collision
+          // if(enemy.collidesWith(player)) {
+          //   loop.stop();
+          //   alert('GAME OVER!');
+          //   window.location = '';
+          // }
+
         });
+
+
+        if(kontra.keys.pressed('up')) {
+          if(background.y < 0 && player.y == 120) {
+             background.y += 1;
+          } else if(player.y > 0){
+            player.y -= 1;
+          }
+        }
+
+        if(kontra.keys.pressed('down')) {
+          if(background.y > -208 && player.y == 120) {
+            background.y -= 1;  
+         } else if(player.y < 240){
+           player.y += 1;
+         }
+        }
+
+        if(kontra.keys.pressed('right')) {
+          if(background.x > -208 && player.x == 120) {
+            background.x -= 1;  
+         } else if(player.x < 245){
+           player.x += 1;
+         }
+          // background.x -= 1;
+        }
+
+        if(kontra.keys.pressed('left')) {
+          if(background.x < 0 && player.x == 120) {
+            background.x += 1;  
+         } else if(player.x > 0){
+           player.x -= 1;
+         }
+        }
+
+
 
         background.update();
 
