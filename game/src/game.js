@@ -1,73 +1,108 @@
+
 kontra.init();
+kontra.initKeys();
 
-kontra.assetPaths.images = 'assets/images/';
+kontra.setImagePath('assets/images');
 
-kontra.loadAssets('RR_level.png', 'enemy.png', 'player.png').then(
+kontra.load(
+    'RR_level.png', 
+    'enemy.png', 
+    'player.png', 
+    'knight1.png').then(
   function(){
-    var background = kontra.sprite({
+
+
+
+  const player_knight = kontra.SpriteSheet({
+      image: kontra.imageAssets['knight1'],
+      frameWidth: 16,
+      frameHeight: 16,
+
+    animations: {
+      // create a named animations
+      idlefront: {
+        frames: 0,  
+        loop: false,
+      },
+      idleback: {
+        frames: 1,  
+        loop: false,
+      },
+      idleleft: {
+        frames: 2,  
+        loop: false,
+      },
+      idleright: {
+        frames: 9, 
+        loop: false,
+      },
+      walkdown: {
+        frames: [3, 0, 8, 0],  
+        frameRate: 2
+      },
+      walkup: {
+        frames: [4, 1, 7, 1], // which frames to use
+        frameRate: 2 // how fast things change
+      },
+      walkleft: {
+        frames: [5,2],  
+        frameRate: 2
+      },
+      walkright: {
+        frames: [6,9],
+        frameRate: 2
+      }
+    }
+
+  });  
+
+    var background = kontra.Sprite({
       x: -100,
       y: -208,
-      image: kontra.images.RR_level
+      image: kontra.imageAssets['RR_level']
     });
 
-    var player = kontra.sprite({
+    var player = kontra.Sprite({
       x: 120,
       y: 120,
-      image: kontra.images.player
+      // image: kontra.imageAssets['knight1'],
+      animations: player_knight.animations,
+      anchor: { x: .5, y: .5 },
+      rotation: 0
     });
 
     var enemies = [
-      kontra.sprite({
+      kontra.Sprite({
         x: 100,
         y: 180,
-        image: kontra.images.enemy,
+        image: kontra.imageAssets['enemy'],
         dx: 1
       }),
-      kontra.sprite({
+      kontra.Sprite({
         x: 100,
         y: 130,
-        image: kontra.images.enemy,
+        image: kontra.imageAssets['enemy'],
         dx: 1.8
       }),
-      kontra.sprite({
+      kontra.Sprite({
         x: 100,
         y: 80,
-        image: kontra.images.enemy,
+        image: kontra.imageAssets['enemy'],
         dx: 0.8
       }),
-      kontra.sprite({
+      kontra.Sprite({
         x: 100,
         y: 200,
-        image: kontra.images.enemy,
+        image: kontra.imageAssets['enemy'],
         dx: 1.2
       })
     ];
 
-    var loop = kontra.gameLoop({
+    var direction_last = "idlefront";
+
+    var loop = kontra.GameLoop({
       update: function() {
 
-        // if(kontra.keys.pressed('up')) {
-        //   player.y -= 1;
-        // }
-
-        // if(kontra.keys.pressed('down')) {
-        //   player.y += 1;
-        // }
-
-        // if(kontra.keys.pressed('right')) {
-        //   player.x += 1;
-        // }
-
-        // if(kontra.keys.pressed('left')) {
-        //   player.x -= 1;
-        // }
-
-        // if(player.y <= 40) {
-        //   //pause game
-        //   loop.stop();
-        //   alert('You Won!');
-        //   window.location = '';
-        // }
         player.update();
 
         //enemy bouncing
@@ -84,51 +119,59 @@ kontra.loadAssets('RR_level.png', 'enemy.png', 'player.png').then(
 
           enemy.update();
 
-          // //check for collision
-          // if(enemy.collidesWith(player)) {
-          //   loop.stop();
-          //   alert('GAME OVER!');
-          //   window.location = '';
-          // }
-
         });
 
+        var pressed = false;
 
-        if(kontra.keys.pressed('up')) {
+        if(kontra.keyPressed('up')) {
           if(background.y < 0 && player.y == 120) {
              background.y += 1;
-          } else if(player.y > 0){
+          } else if(player.y > 7){
             player.y -= 1;
           }
+          player.playAnimation('walkup');
+          direction_last = "idleback";
+          pressed = true;
         }
-
-        if(kontra.keys.pressed('down')) {
+        
+        if(kontra.keyPressed('down')) {
           if(background.y > -208 && player.y == 120) {
             background.y -= 1;  
-         } else if(player.y < 240){
+         } else if(player.y < 248){
            player.y += 1;
          }
+         player.playAnimation('walkdown');
+         direction_last = "idlefront";
+         pressed = true;
         }
-
-        if(kontra.keys.pressed('right')) {
+        
+        if(kontra.keyPressed('right')) {
           if(background.x > -208 && player.x == 120) {
             background.x -= 1;  
-         } else if(player.x < 245){
+         } else if(player.x < 251){
            player.x += 1;
          }
-          // background.x -= 1;
+         player.playAnimation('walkright');
+         direction_last = "idleright";
+         pressed = true;
         }
-
-        if(kontra.keys.pressed('left')) {
+        
+        if(kontra.keyPressed('left')) {
           if(background.x < 0 && player.x == 120) {
             background.x += 1;  
-         } else if(player.x > 0){
+         } else if(player.x > 5){
            player.x -= 1;
          }
+         player.playAnimation('walkleft');
+         direction_last = "idleleft";
+         pressed = true;
         }
 
+        if(!pressed){
+            player.playAnimation(direction_last);
+        }
 
-
+        player.update();
         background.update();
 
 
@@ -141,8 +184,7 @@ kontra.loadAssets('RR_level.png', 'enemy.png', 'player.png').then(
         });
       }
     });
-
+    player.playAnimation('idleback');
     loop.start();
-
   }
 );
