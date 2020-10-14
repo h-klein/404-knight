@@ -3,15 +3,15 @@ kontra.init();
 kontra.initKeys();
 
 kontra.setImagePath('assets/images');
+kontra.setAudioPath('assets/sound');
 
 kontra.load(
-    'RR_level.png', 
-    'enemy.png', 
-    'player.png', 
-    'knight1.png').then(
+    'RR_level.png',
+    'Vision1.png',
+    'enemy.png',
+    'knight1.png',
+    'cringelivesherenow.mp3').then(
   function(){
-
-
 
   const player_knight = kontra.SpriteSheet({
       image: kontra.imageAssets['knight1'],
@@ -21,23 +21,23 @@ kontra.load(
     animations: {
       // create a named animations
       idlefront: {
-        frames: 0,  
+        frames: 0,
         loop: false,
       },
       idleback: {
-        frames: 1,  
+        frames: 1,
         loop: false,
       },
       idleleft: {
-        frames: 2,  
+        frames: 2,
         loop: false,
       },
       idleright: {
-        frames: 9, 
+        frames: 9,
         loop: false,
       },
       walkdown: {
-        frames: [3, 0, 8, 0],  
+        frames: [3, 0, 8, 0],
         frameRate: 2
       },
       walkup: {
@@ -45,7 +45,7 @@ kontra.load(
         frameRate: 2 // how fast things change
       },
       walkleft: {
-        frames: [5,2],  
+        frames: [5,2],
         frameRate: 2
       },
       walkright: {
@@ -54,7 +54,7 @@ kontra.load(
       }
     }
 
-  });  
+  });
 
     var background = kontra.Sprite({
       x: -100,
@@ -63,9 +63,8 @@ kontra.load(
     });
 
     var player = kontra.Sprite({
-      x: 120,
-      y: 120,
-      // image: kontra.imageAssets['knight1'],
+      x: 128,
+      y: 128,
       animations: player_knight.animations,
       anchor: { x: .5, y: .5 },
       rotation: 0
@@ -91,14 +90,25 @@ kontra.load(
         dx: 0.8
       }),
       kontra.Sprite({
-        x: 100,
-        y: 200,
+        x: 0,
+        y: 0,
+        anchor: {x: 0.5, y: 0.5},
         image: kontra.imageAssets['enemy'],
         dx: 1.2
       })
     ];
 
+    var vision = kontra.Sprite({
+        x: -6,
+        y: -4,
+        anchor: {x: .5, y: .5},
+        image: kontra.imageAssets['Vision1']
+      });
+
     var direction_last = "idlefront";
+
+    player.addChild(vision)
+
 
     var loop = kontra.GameLoop({
       update: function() {
@@ -124,8 +134,8 @@ kontra.load(
         var pressed = false;
 
         if(kontra.keyPressed('up')) {
-          if(background.y < 0 && player.y == 120) {
-             background.y += 1;
+          if(background.y < 0 && player.y == 128) {
+            background.y += 1;
           } else if(player.y > 7){
             player.y -= 1;
           }
@@ -133,21 +143,21 @@ kontra.load(
           direction_last = "idleback";
           pressed = true;
         }
-        
+
         if(kontra.keyPressed('down')) {
-          if(background.y > -208 && player.y == 120) {
-            background.y -= 1;  
-         } else if(player.y < 248){
+          if(background.y > -208 && player.y == 128) {
+            background.y -= 1;
+         } else if(player.y < 248){ // Edge of maps
            player.y += 1;
          }
          player.playAnimation('walkdown');
          direction_last = "idlefront";
          pressed = true;
         }
-        
+
         if(kontra.keyPressed('right')) {
-          if(background.x > -208 && player.x == 120) {
-            background.x -= 1;  
+          if(background.x > -208 && player.x == 133) {
+            background.x -= 1;
          } else if(player.x < 251){
            player.x += 1;
          }
@@ -155,10 +165,10 @@ kontra.load(
          direction_last = "idleright";
          pressed = true;
         }
-        
+
         if(kontra.keyPressed('left')) {
-          if(background.x < 0 && player.x == 120) {
-            background.x += 1;  
+          if(background.x < 0 && player.x == 133) {
+            background.x += 1;
          } else if(player.x > 5){
            player.x -= 1;
          }
@@ -166,6 +176,20 @@ kontra.load(
          direction_last = "idleleft";
          pressed = true;
         }
+
+        if(kontra.keyPressed('1') && vision.scaleX < 1) {
+            vision.scaleX = vision.scaleX*1.01;
+            vision.scaleY = vision.scaleY*1.01;
+          }
+          if(kontra.keyPressed('2') && vision.scaleX > .1775) {
+            vision.scaleX = vision.scaleX*.99;
+            vision.scaleY = vision.scaleY*.99;
+          }
+
+          if(kontra.keyPressed('3')) {
+            console.log(vision.scaleX)
+            console.log(vision.scaleY)
+          }
 
         if(!pressed){
             player.playAnimation(direction_last);
@@ -185,6 +209,7 @@ kontra.load(
       }
     });
     player.playAnimation('idleback');
+    kontra.audioAssets['cringelivesherenow'].play();
     loop.start();
   }
 );
