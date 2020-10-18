@@ -2,3 +2,16 @@
 404knight_venv
 get-pip.py
 models/checkpoint_run1.tar
+.vscode/settings.json
+*.pyc
+checkpoint/run1/encoder.json
+checkpoint/run1/events.out.tfevents.1602649740.Jamess-MacBook-Pro.local
+checkpoint/run1/hparams.json
+checkpoint/run1/vocab.bpe
+LOTR.txt
+models/124M/checkpoint
+models/124M/encoder.json
+models/*
+new_env/*
+seven_venv/*
+.python-version
