@@ -6,6 +6,7 @@
     "activeFile": "",
     "expandedProjectPaths": [
     ],
+    "exportAsImage.useCurrentScale": false,
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "0x72_16x16DungeonTileset.v4.tsx": {
@@ -28,17 +29,17 @@
             "scaleInDock": 1
         }
     },
-    "map.height": 30,
+    "map.height": 31,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 30,
+    "map.width": 31,
     "openFiles": [
     ],
     "project": "make_levels.tiled-project",
     "recentFiles": [
-        "0x72_16x16DungeonTileset_walls.v2.tsx",
         "testmap.tmx",
+        "0x72_16x16DungeonTileset_walls.v2.tsx",
         "0x72_16x16DungeonTileset.v4.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

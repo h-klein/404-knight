@@ -9,6 +9,7 @@ kontra.load(
     'RR_level.png',
     'enemy.png',
     'knight1.png',
+    'testmap.png',
     'cringelivesherenow.mp3').then(
   function(){
 
@@ -60,7 +61,7 @@ kontra.load(
     var background = kontra.Sprite({
       x: -100,
       y: -208,
-      image: kontra.imageAssets['RR_level']
+      image: kontra.imageAssets['testmap']
     });
 
     // Player character
@@ -157,7 +158,7 @@ kontra.load(
         if(kontra.keyPressed('up')) {
           if(background.y < 0 && player.y == 128) {
             background.y += 1;
-          } else if(player.y > 7){
+          } else if(player.y > 28){
             player.y -= 1;
           }
           player.playAnimation('walkup');
@@ -166,9 +167,9 @@ kontra.load(
         }
 
         if(kontra.keyPressed('down')) {
-          if(background.y > -208 && player.y == 128) {
+          if(background.y > -235 && player.y == 128) {
             background.y -= 1;
-         } else if(player.y < 248){ // Edge of maps
+         } else if(player.y < 240){ // Edge of maps
            player.y += 1;
          }
          player.playAnimation('walkdown');
@@ -177,9 +178,9 @@ kontra.load(
         }
 
         if(kontra.keyPressed('right')) {
-          if(background.x > -208 && player.x == 133) {
+          if(background.x > -228 && player.x == 128) {
             background.x -= 1;
-         } else if(player.x < 251){
+         } else if(player.x < 243){
            player.x += 1;
          }
          player.playAnimation('walkright');
@@ -188,9 +189,10 @@ kontra.load(
         }
 
         if(kontra.keyPressed('left')) {
-          if(background.x < 0 && player.x == 133) {
+          console.log(background.x, player.x)
+          if(background.x < -12 && player.x == 128) {
             background.x += 1;
-         } else if(player.x > 5){
+         } else if(player.x > 7){
            player.x -= 1;
          }
          player.playAnimation('walkleft');
