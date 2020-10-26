@@ -15,4 +15,3 @@ models/*
 new_env/*
 seven_venv/*
 .python-version
-api/checkpoint/*
